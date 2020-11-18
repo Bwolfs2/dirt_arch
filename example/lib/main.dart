@@ -1,4 +1,5 @@
 import 'package:dirt_arch/dirt_arch.dart';
+import 'package:example/page_four.dart';
 import 'package:flutter/material.dart';
 
 import 'model/sample_model.dart';
@@ -54,6 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          RaisedButton(
+              child: Text('Next Page'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => PageFour(),
+                  ),
+                );
+              }),
           Expanded(
             child: GetWidget<List<SampleModel>>(
               url: 'https://jsonplaceholder.typicode.com/posts',

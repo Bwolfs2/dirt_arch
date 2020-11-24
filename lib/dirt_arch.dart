@@ -21,3 +21,4 @@ export 'src/hasura_components/subscription/subscription_widget.dart';
 export 'src/rest_api_components/get/get_widget.dart';
 export 'src/rest_api_components/post/post_widget.dart';
 export 'src/utils/network_aware_state.dart';
+export 'src/dirt_snack_bar/dirt_snack_bar.dart';

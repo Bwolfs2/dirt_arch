@@ -6,7 +6,7 @@ class MutationWidget<T> extends StatefulWidget {
   final String mutation;
   final Map<String, dynamic> variables;
   final String url;
-  final Widget Function(void Function(T) execute) builder;
+  final Widget Function(void Function() execute) builder;
   final Widget loader;
 
   final void Function(dynamic) onError;
@@ -31,7 +31,7 @@ class MutationWidget<T> extends StatefulWidget {
 }
 
 class _MutationWidgetState<T> extends State<MutationWidget<T>> {
-  Future<void> sendMutation(T data) async {
+  Future<void> sendMutation() async {
     BotToast.showCustomLoading(toastBuilder: (_) => widget.loader);
 
     try {
@@ -40,7 +40,8 @@ class _MutationWidgetState<T> extends State<MutationWidget<T>> {
         widget.mutation,
         variables: widget.variables,
       );
-      widget.onSuccess(response);
+      widget.onSuccess(response['data']);
+      setState(() {});
     } catch (e) {
       widget.onError?.call(e);
     } finally {

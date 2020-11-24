@@ -1,7 +1,7 @@
 import 'package:dirt_arch/dirt_arch.dart';
 import 'package:example/page_four.dart';
 import 'package:flutter/material.dart';
-
+import 'package:asuka/asuka.dart' as asuka;
 import 'model/sample_model.dart';
 import 'page_three.dart';
 import 'page_two.dart';
@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
-      builder: BotToastInit(), //1. call BotToastInit
+      builder: (BuildContext context, Widget child) {
+        return asuka.builder(context, BotToastInit()(context, child));
+      },
       navigatorObservers: [BotToastNavigatorObserver()],
     );
   }

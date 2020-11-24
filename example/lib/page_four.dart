@@ -15,6 +15,33 @@ class _PageFourState extends State<PageFour> {
       appBar: AppBar(
         title: Text("Details"),
       ),
+      floatingActionButton: MutationWidget<SampleModel>(
+        url: 'https://bwolfdev.herokuapp.com/v1/graphql',
+        variables: {
+          'urlImage':
+              'https://img.freepik.com/fotos-gratis/3d-rendem-de-uma-mesa-de-madeira-com-uma-imagem-defocussed-de-um-barco-em-um-lago_1048-3432.jpg?size=626&ext=jpg'
+        },
+        mutation: r'''mutation insertUser($urlImage: String) {
+                      insert_user(objects: {title: "Titulo Legal", urlImage: $urlImage, userId: 1}) {
+                        affected_rows
+                      }
+                    }''',
+        onSuccess: (dynamic value) {
+          if (value['insert_user']['affected_rows'] > 0) {
+            DirtSnackBar.done('Added Success')();
+          } else {
+            DirtSnackBar.warning('I guess something is wrong')();
+          }
+        },
+        //  toMap: (data) => data.toMap(),
+        builder: (execute) {
+          return FloatingActionButton(
+            onPressed: () => execute(),
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          );
+        },
+      ),
       body: Column(
         children: [
           Container(

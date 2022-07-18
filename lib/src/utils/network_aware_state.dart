@@ -5,13 +5,13 @@ https://medium.com/@ducduy.dev/flutter-implement-network-aware-in-your-flutter-a
 
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 mixin NetworkAwareState<T extends StatefulWidget> on State<T> {
   bool _isDisconnected = false;
 
-  StreamSubscription<ConnectivityResult> _networkSubscription;
+  late StreamSubscription<ConnectivityResult> _networkSubscription;
   final Connectivity _connectivity = Connectivity();
 
   void onReconnected();
@@ -25,18 +25,17 @@ mixin NetworkAwareState<T extends StatefulWidget> on State<T> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
+      // If the widget was removed from the tree while the asynchronous platform
+      // message was in flight, we want to discard the reply rather than calling
+      // setState to update our non-existent appearance.
+      if (!mounted) {
+        return Future.value(null);
+      }
+
+      return _updateConnectionStatus(result);
     } on Exception catch (e) {
       debugPrint(e.toString());
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
   }
 
   @override
@@ -69,9 +68,9 @@ mixin NetworkAwareState<T extends StatefulWidget> on State<T> {
 
   void cancelSubscription() {
     try {
-      _networkSubscription?.cancel();
+      _networkSubscription.cancel();
     } catch (e) {
-      debugPrint(e);
+      debugPrintStack(label: e.toString(), stackTrace: StackTrace.current);
     }
   }
 }

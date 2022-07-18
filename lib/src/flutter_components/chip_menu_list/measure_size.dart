@@ -8,9 +8,9 @@ class MeasureSize extends StatefulWidget {
   final OnWidgetSizeChange onChange;
 
   const MeasureSize({
-    Key key,
-    @required this.onChange,
-    @required this.child,
+    Key? key,
+    required this.onChange,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -38,6 +38,6 @@ class _MeasureSizeState extends State<MeasureSize> {
     if (oldSize == newSize) return;
 
     oldSize = newSize;
-    widget.onChange(newSize);
+    widget.onChange(newSize ?? Size.zero);
   }
 }

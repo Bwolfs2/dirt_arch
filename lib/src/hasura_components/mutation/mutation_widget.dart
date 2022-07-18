@@ -5,20 +5,20 @@ import 'package:hasura_connect/hasura_connect.dart';
 class MutationWidget<T> extends StatefulWidget {
   final String mutation;
   final Map<String, dynamic> variables;
-  final String url;
+  final String? url;
   final Widget Function(void Function() execute) builder;
   final Widget loader;
 
-  final void Function(dynamic) onError;
-  final void Function(dynamic) onSuccess;
+  final void Function(dynamic)? onError;
+  final void Function(dynamic)? onSuccess;
 
-  final HasuraConnect hasuraConnect;
+  final HasuraConnect? hasuraConnect;
 
   const MutationWidget({
-    Key key,
-    @required this.mutation,
-    @required this.variables,
-    @required this.builder,
+    Key? key,
+    required this.mutation,
+    required this.variables,
+    required this.builder,
     this.loader = const CircularProgressIndicator(),
     this.onError,
     this.onSuccess,
@@ -35,12 +35,12 @@ class _MutationWidgetState<T> extends State<MutationWidget<T>> {
     BotToast.showCustomLoading(toastBuilder: (_) => widget.loader);
 
     try {
-      var dio = widget.hasuraConnect ?? HasuraConnect(widget.url);
+      var dio = widget.hasuraConnect ?? HasuraConnect(widget.url!);
       var response = await dio.mutation(
         widget.mutation,
         variables: widget.variables,
       );
-      widget.onSuccess(response['data']);
+      widget.onSuccess?.call(response['data']);
       setState(() {});
     } catch (e) {
       widget.onError?.call(e);

@@ -1,29 +1,29 @@
-version: 0.0.5
+version: 0.0.6
 name: dirt_arch
 description: This package has the reference of many packages to facilitate the creation of apps without having to look for packages
-author: Bwolf <bwolf@flutterando.com.br>
-homepage: https://github.com/Bwolfs2/dirt_arch.git
 
 
+repository: https://github.com/Bwolfs2/dirt_arch.git
+issue_tracker: https://github.com/Bwolfs2/dirt_arch/issues
+homepage:  https://github.com/Bwolfs2/dirt_arch.git
+documentation:  https://github.com/Bwolfs2/dirt_arch.git
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  hasura_connect: ^2.0.0
-  mask_text_input_formatter: ^1.1.0
-  connectivity: ^2.0.2
-  animated_card: ^1.0.0+8
-  google_fonts: ^1.1.0
-  flutter_modular: ^2.0.1
-  bubble_bottom_bar: ^1.2.0
-  meta: ^1.1.8
-  convex_bottom_bar: ^2.4.1
-  flutter_form_builder: ^3.14.1
-  bot_toast: ^3.0.5
-  dio: ^3.0.10
-  asuka: ^1.0.4
+  hasura_connect: ^4.0.0+2
+  mask_text_input_formatter: ^2.3.0
+  connectivity_plus: ^2.3.6
+  animated_card: ^2.0.0
+  google_fonts: ^3.0.1
+  flutter_modular: ^5.0.3
+  bubble_bottom_bar: ^2.0.0  
+  convex_bottom_bar: ^3.0.0
+  flutter_form_builder: ^7.4.0
+  bot_toast: ^4.0.3
+  dio: ^4.0.6
+  asuka: ^2.0.0+1
   flutter:
     sdk: flutter
 

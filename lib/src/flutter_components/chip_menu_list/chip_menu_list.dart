@@ -6,15 +6,15 @@ import 'measure_size.dart';
 
 class ChipMenuList<T> extends StatefulWidget {
   final List<ChipMenuItem<T>> items;
-  final void Function(T clickedItem) onTap;
-  final Color backgroundColor;
-  final double elevation;
-  final Color activeColor;
+  final void Function(T clickedItem)? onTap;
+  final Color? backgroundColor;
+  final double? elevation;
+  final Color? activeColor;
   final bool useTips;
 
   const ChipMenuList({
-    Key key,
-    @required this.items,
+    Key? key,
+    required this.items,
     this.onTap,
     this.backgroundColor,
     this.elevation,
@@ -28,8 +28,8 @@ class ChipMenuList<T> extends StatefulWidget {
 
 class _ChipMenuListState<T> extends State<ChipMenuList<T>> {
   var selectedIndex = 0;
-  Size size;
-  Size totalSize;
+  late Size size;
+  late Size totalSize;
 
   List<Size> childSizes = [];
   double sizeUntilIndex(int index) {
@@ -60,8 +60,7 @@ class _ChipMenuListState<T> extends State<ChipMenuList<T>> {
                       borderRadius: BorderRadius.circular(50),
                       color: Colors.red,
                     ),
-                    transform: Matrix4.identity()
-                      ..translate(sizeUntilIndex(selectedIndex)),
+                    transform: Matrix4.identity()..translate(sizeUntilIndex(selectedIndex)),
                     width: childSizes[selectedIndex].width,
                     height: childSizes[selectedIndex].height,
                     duration: Duration(milliseconds: 500),
@@ -105,9 +104,7 @@ class _ChipMenuListState<T> extends State<ChipMenuList<T>> {
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: AnimatedText(
                                 text: e.item.toString(),
-                                color: widget.items.indexOf(e) == selectedIndex
-                                    ? Colors.white
-                                    : Colors.grey[800],
+                                color: widget.items.indexOf(e) == selectedIndex ? Colors.white : Colors.grey[800]!,
                                 curve: Curves.easeIn,
                                 duration: Duration(milliseconds: 300),
                               ),
@@ -126,35 +123,37 @@ class _ChipMenuListState<T> extends State<ChipMenuList<T>> {
 }
 
 class AnimatedText extends ImplicitlyAnimatedWidget {
-  final Color color;
-  final String text;
+  final Color? color;
+  final String? text;
 
-  AnimatedText({this.color, this.text, Duration duration, Curve curve})
-      : super(duration: duration, curve: curve);
+  AnimatedText({
+    this.color,
+    this.text,
+    Duration duration = Duration.zero,
+    Curve curve = Curves.linear,
+  }) : super(duration: duration, curve: curve);
 
   @override
   _AnimatedTextState createState() => _AnimatedTextState();
 }
 
 class _AnimatedTextState extends AnimatedWidgetBaseState<AnimatedText> {
-  ColorTween _color;
+  late ColorTween _color;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      widget.text,
+      widget.text ?? '',
       textAlign: TextAlign.center,
       style: GoogleFonts.roboto(
         fontWeight: FontWeight.bold,
-        color: _color?.evaluate(animation),
+        color: _color.evaluate(animation),
       ),
     );
   }
 
   @override
   void forEachTween(visitor) {
-    _color = visitor(
-            _color, widget.color, (dynamic value) => ColorTween(begin: value))
-        as ColorTween;
+    _color = visitor(_color, widget.color, (dynamic value) => ColorTween(begin: value)) as ColorTween;
   }
 }

@@ -8,16 +8,16 @@ class PostWidget<T> extends StatefulWidget {
   final Map<String, dynamic> Function(T data) toMap;
   final Widget loader;
 
-  final void Function(dynamic) onError;
-  final void Function(Response) onSuccess;
+  final void Function(dynamic)? onError;
+  final void Function(Response)? onSuccess;
 
-  final Dio customDio;
+  final Dio? customDio;
 
   const PostWidget({
-    Key key,
-    @required this.url,
-    @required this.builder,
-    @required this.toMap,
+    Key? key,
+    required this.url,
+    required this.builder,
+    required this.toMap,
     this.loader = const CircularProgressIndicator(),
     this.onError,
     this.onSuccess,
@@ -35,7 +35,7 @@ class _PostWidgetState<T> extends State<PostWidget<T>> {
     try {
       var dio = widget.customDio ?? Dio();
       var response = await dio.post(widget.url, data: widget.toMap(data));
-      widget.onSuccess(response);
+      widget.onSuccess?.call(response);
     } catch (e) {
       widget.onError?.call(e);
     } finally {

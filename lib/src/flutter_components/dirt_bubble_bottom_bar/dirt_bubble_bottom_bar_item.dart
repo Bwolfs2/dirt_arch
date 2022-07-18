@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 
 class DirtBubbleBottomBarItem {
   const DirtBubbleBottomBarItem({
-    @required this.icon,
-    @required this.onTap,
+    required this.icon,
+    required this.onTap,
     this.title,
-    Widget activeIcon,
-    this.backgroundColor,
-  })  : activeIcon = activeIcon ?? icon,
-        assert(icon != null);
+    Widget? activeIcon,
+    this.backgroundColor = Colors.transparent,
+  }) : activeIcon = activeIcon ?? icon;
   final Widget icon;
   final Widget activeIcon;
-  final Widget title;
+  final Widget? title;
   final Color backgroundColor;
 
   ///OntTap Function

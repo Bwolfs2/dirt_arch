@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dirt_arch/dirt_arch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class GetWidget<T> extends StatefulWidget {
   final String url;
@@ -9,13 +8,13 @@ class GetWidget<T> extends StatefulWidget {
   final T Function(dynamic json) fromMap;
 
   final Widget loader;
-  final void Function(dynamic) onError;
-  final Dio customDio;
+  final void Function(dynamic)? onError;
+  final Dio? customDio;
   const GetWidget({
-    Key key,
-    @required this.url,
-    @required this.builder,
-    @required this.fromMap,
+    Key? key,
+    required this.url,
+    required this.builder,
+    required this.fromMap,
     this.loader = const CircularProgressIndicator(),
     this.onError,
     this.customDio,
@@ -26,7 +25,7 @@ class GetWidget<T> extends StatefulWidget {
 }
 
 class _GetWidgetState<T> extends State<GetWidget<T>> {
-  Future<T> getData() async {
+  Future<T?> getData() async {
     try {
       var dio = widget.customDio ?? Dio();
       var result = await dio.get(widget.url);
@@ -38,7 +37,7 @@ class _GetWidgetState<T> extends State<GetWidget<T>> {
     }
   }
 
-  Future future;
+  late Future<T?> future;
 
   @override
   void initState() {
@@ -51,13 +50,13 @@ class _GetWidgetState<T> extends State<GetWidget<T>> {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
-        if (snapshot?.data == null) {
+        if (snapshot.data == null) {
           BotToast.showCustomLoading(toastBuilder: (_) => widget.loader);
           return Container();
           // Center(child: widget.loader);
         }
         BotToast.closeAllLoading();
-        return widget.builder(snapshot.data);
+        return widget.builder(snapshot.data as T);
       },
     );
   }

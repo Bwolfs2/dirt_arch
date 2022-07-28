@@ -5,6 +5,7 @@ export 'package:bot_toast/bot_toast.dart';
 export 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:convex_bottom_bar/convex_bottom_bar.dart';
+export 'package:datasource/datasource.dart';
 export 'package:flutter_form_builder/flutter_form_builder.dart';
 export 'package:flutter_modular/flutter_modular.dart';
 export 'package:mask_text_input_formatter/mask_text_input_formatter.dart';

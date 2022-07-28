@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dirt_arch/dirt_arch.dart';
 import 'package:flutter/material.dart';
 import 'package:hasura_connect/hasura_connect.dart';
@@ -12,7 +14,7 @@ class SubscriptionWidget<T> extends StatefulWidget {
   final void Function(dynamic)? onError;
   final HasuraConnect? hasuraConnect;
   const SubscriptionWidget({
-    Key? key,
+    super.key,
     required this.subscription,
     required this.builder,
     required this.fromListMap,
@@ -20,8 +22,7 @@ class SubscriptionWidget<T> extends StatefulWidget {
     this.onError,
     this.url,
     this.hasuraConnect,
-  })  : assert(url == null || hasuraConnect == null),
-        super(key: key);
+  }) : assert(url == null || hasuraConnect == null);
 
   @override
   _SubscriptionWidgetState<T> createState() => _SubscriptionWidgetState<T>();
@@ -32,7 +33,7 @@ class _SubscriptionWidgetState<T> extends State<SubscriptionWidget<T>> {
 
   Future<Snapshot<List<T>?>?> getData() async {
     try {
-      var hasuraConnect = widget.hasuraConnect ?? HasuraConnect(widget.url!);
+      final hasuraConnect = widget.hasuraConnect ?? HasuraConnect(widget.url!);
       result = await hasuraConnect.subscription(widget.subscription);
       return result.map((event) {
         return event == null ? null : widget.fromListMap(event!['data']);
@@ -69,12 +70,12 @@ class _SubscriptionWidgetState<T> extends State<SubscriptionWidget<T>> {
         BotToast.closeAllLoading();
         return StreamBuilder(
           stream: snapshot.data,
-          builder: (context, _snapshot) {
-            if (_snapshot.data == null) {
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
               BotToast.showCustomLoading(toastBuilder: (_) => widget.loader);
               return Container();
             }
-            return widget.builder(_snapshot.data as List<T>);
+            return widget.builder(snapshot.data == null ? [] : snapshot.data! as List<T>);
           },
         );
       },

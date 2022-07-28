@@ -7,8 +7,13 @@ class SampleModel {
 
   final bool completed;
   final String urlImage;
-  SampleModel(
-      {this.userId, this.id, this.title, this.completed, this.urlImage});
+  SampleModel({
+    this.userId,
+    this.id,
+    this.title,
+    this.completed,
+    this.urlImage,
+  });
 
   SampleModel copyWith({
     int userId,
@@ -25,17 +30,16 @@ class SampleModel {
         urlImage: urlImage ?? this.urlImage,
       );
 
-  factory SampleModel.fromJson(String str) =>
-      SampleModel.fromMap(json.decode(str));
+  factory SampleModel.fromJson(String str) => SampleModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory SampleModel.fromMap(dynamic json) => SampleModel(
-        userId: json["userId"],
-        id: json["id"],
-        title: json["title"],
-        completed: json["completed"],
-        urlImage: json['urlImage'],
+        userId: json["userId"] as int,
+        id: json["id"] as int,
+        title: json["title"] as String,
+        completed: json["completed"] as bool,
+        urlImage: json['urlImage'] as String,
       );
 
   Map<String, dynamic> toMap() => {

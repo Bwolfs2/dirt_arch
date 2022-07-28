@@ -1,7 +1,6 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:dirt_arch/src/flutter_components/dirt_bubble_bottom_bar/dirt_bubble_bottom_bar_item.dart';
 import 'package:flutter/material.dart';
-
-import 'dirt_bubble_bottom_bar_item.dart';
 
 class DirtBubbleBottomBar extends StatefulWidget {
   final void Function(int)? onTap;
@@ -12,15 +11,14 @@ class DirtBubbleBottomBar extends StatefulWidget {
   final List<DirtBubbleBottomBarItem>? onTapItems;
 
   const DirtBubbleBottomBar({
-    Key? key,
+    super.key,
     this.onTap,
     this.items,
     this.hasNotch = true,
     this.elevation = 8,
     this.fabLocation = BubbleBottomBarFabLocation.end,
     this.onTapItems,
-  })  : assert((onTapItems == null) || (items == null && onTap == null)),
-        super(key: key);
+  }) : assert((onTapItems == null) || (items == null && onTap == null));
 
   @override
   _DirtBubbleBottomBarState createState() => _DirtBubbleBottomBarState();
@@ -43,7 +41,7 @@ class _DirtBubbleBottomBarState extends State<DirtBubbleBottomBar> {
         changePage(index ?? 0);
         widget.onTapItems?[index ?? 0].onTap(index ?? 0);
       },
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       elevation: widget.elevation,
       fabLocation: widget.fabLocation, //new
       hasNotch: widget.hasNotch, //new
@@ -51,12 +49,14 @@ class _DirtBubbleBottomBarState extends State<DirtBubbleBottomBar> {
       inkColor: Colors.black12,
       //optional, uses theme color if not specified
       items: widget.onTapItems
-              ?.map((item) => BubbleBottomBarItem(
-                    icon: item.icon,
-                    title: item.title,
-                    activeIcon: item.activeIcon,
-                    backgroundColor: item.backgroundColor,
-                  ))
+              ?.map(
+                (item) => BubbleBottomBarItem(
+                  icon: item.icon,
+                  title: item.title,
+                  activeIcon: item.activeIcon,
+                  backgroundColor: item.backgroundColor,
+                ),
+              )
               .toList() ??
           [],
     );

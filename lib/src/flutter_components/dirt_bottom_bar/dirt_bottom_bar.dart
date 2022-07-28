@@ -1,6 +1,5 @@
+import 'package:dirt_arch/dirt_arch.dart';
 import 'package:flutter/material.dart';
-
-import '../../../dirt_arch.dart';
 
 class DirtBottomBar extends StatefulWidget {
   final List<TabItem>? items;
@@ -12,7 +11,7 @@ class DirtBottomBar extends StatefulWidget {
   final Map<int, dynamic>? badge;
 
   const DirtBottomBar({
-    Key? key,
+    super.key,
     this.onTap,
     this.backgroundColor,
     this.elevation,
@@ -20,8 +19,7 @@ class DirtBottomBar extends StatefulWidget {
     this.items,
     this.onTapItems,
     this.badge,
-  })  : assert((onTapItems == null) || (items == null && onTap == null)),
-        super(key: key);
+  }) : assert((onTapItems == null) || (items == null && onTap == null));
   @override
   _DirtBottomBarState createState() => _DirtBottomBarState();
 }
@@ -35,12 +33,14 @@ class _DirtBottomBarState extends State<DirtBottomBar> {
         backgroundColor: widget.backgroundColor ?? Theme.of(context).primaryColor,
         initialActiveIndex: 1,
         items: widget.onTapItems
-                ?.map((tabItem) => TabItem(
-                      title: tabItem.title,
-                      icon: tabItem.icon,
-                      activeIcon: tabItem.activeIcon,
-                      isIconBlend: (tabItem.icon is IconData),
-                    ))
+                ?.map(
+                  (tabItem) => TabItem(
+                    title: tabItem.title,
+                    icon: tabItem.icon,
+                    activeIcon: tabItem.activeIcon,
+                    isIconBlend: tabItem.icon is IconData,
+                  ),
+                )
                 .toList() ??
             [],
         onTap: (index) => widget.onTapItems?[index].onTap(index),
@@ -53,12 +53,14 @@ class _DirtBottomBarState extends State<DirtBottomBar> {
       backgroundColor: widget.backgroundColor ?? Theme.of(context).primaryColor,
       initialActiveIndex: 1,
       items: widget.onTapItems
-              ?.map((tabItem) => TabItem(
-                    title: tabItem.title,
-                    icon: tabItem.icon,
-                    activeIcon: tabItem.activeIcon,
-                    isIconBlend: (tabItem.icon is IconData),
-                  ))
+              ?.map(
+                (tabItem) => TabItem(
+                  title: tabItem.title,
+                  icon: tabItem.icon,
+                  activeIcon: tabItem.activeIcon,
+                  isIconBlend: tabItem.icon is IconData,
+                ),
+              )
               .toList() ??
           [],
       onTap: (index) => widget.onTapItems?[index].onTap(index),

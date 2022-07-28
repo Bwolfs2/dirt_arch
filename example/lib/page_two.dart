@@ -1,7 +1,6 @@
 import 'package:dirt_arch/dirt_arch.dart';
+import 'package:example/model/sample_model.dart';
 import 'package:flutter/material.dart';
-
-import 'model/sample_model.dart';
 
 class PageTwo extends StatefulWidget {
   final int id;
@@ -17,7 +16,7 @@ class _PageTwoState extends State<PageTwo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: const Text("Details"),
       ),
       body: GetWidget<SampleModel>(
         url: "https://jsonplaceholder.typicode.com/posts/${widget.id}",
@@ -39,58 +38,60 @@ class _PageTwoState extends State<PageTwo> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(
+        backgroundColor: Colors.red,
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
-        backgroundColor: Colors.red,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: DirtBubbleBottomBar(
-        fabLocation: BubbleBottomBarFabLocation.end,
         onTapItems: [
           DirtBubbleBottomBarItem(
-              backgroundColor: Colors.red,
-              icon: Icon(
-                Icons.dashboard,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.dashboard,
-                color: Colors.red,
-              ),
-              title: Text("Home"),
-              onTap: (index) {
-                print("Home $index");
-              }),
+            backgroundColor: Colors.red,
+            icon: const Icon(
+              Icons.dashboard,
+              color: Colors.black,
+            ),
+            activeIcon: const Icon(
+              Icons.dashboard,
+              color: Colors.red,
+            ),
+            title: const Text("Home"),
+            onTap: (index) {
+              debugPrint("Home $index");
+            },
+          ),
           DirtBubbleBottomBarItem(
-              backgroundColor: Colors.deepPurple,
-              icon: Icon(
-                Icons.access_time,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.access_time,
-                color: Colors.deepPurple,
-              ),
-              title: Text("Logs"),
-              onTap: (index) {
-                print("Logs $index");
-              }),
+            backgroundColor: Colors.deepPurple,
+            icon: const Icon(
+              Icons.access_time,
+              color: Colors.black,
+            ),
+            activeIcon: const Icon(
+              Icons.access_time,
+              color: Colors.deepPurple,
+            ),
+            title: const Text("Logs"),
+            onTap: (index) {
+              debugPrint("Logs $index");
+            },
+          ),
           DirtBubbleBottomBarItem(
-              backgroundColor: Colors.indigo,
-              icon: Icon(
-                Icons.folder_open,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.folder_open,
-                color: Colors.indigo,
-              ),
-              title: Text("Folders"),
-              onTap: (index) {
-                print("Folders $index");
-              }),
+            backgroundColor: Colors.indigo,
+            icon: const Icon(
+              Icons.folder_open,
+              color: Colors.black,
+            ),
+            activeIcon: const Icon(
+              Icons.folder_open,
+              color: Colors.indigo,
+            ),
+            title: const Text("Folders"),
+            onTap: (index) {
+              debugPrint("Folders $index");
+            },
+          ),
         ],
         //Or
         // items: [

@@ -11,14 +11,14 @@ class GetWidget<T> extends StatefulWidget {
   final void Function(dynamic)? onError;
   final Dio? customDio;
   const GetWidget({
-    Key? key,
+    super.key,
     required this.url,
     required this.builder,
     required this.fromMap,
     this.loader = const CircularProgressIndicator(),
     this.onError,
     this.customDio,
-  }) : super(key: key);
+  });
 
   @override
   _GetWidgetState<T> createState() => _GetWidgetState<T>();
@@ -27,12 +27,12 @@ class GetWidget<T> extends StatefulWidget {
 class _GetWidgetState<T> extends State<GetWidget<T>> {
   Future<T?> getData() async {
     try {
-      var dio = widget.customDio ?? Dio();
-      var result = await dio.get(widget.url);
+      final dio = widget.customDio ?? Dio();
+      final result = await dio.get(widget.url);
       return widget.fromMap(result.data);
     } catch (e) {
       widget.onError?.call(e);
-      print(e);
+      debugPrint('$e');
       return null;
     }
   }

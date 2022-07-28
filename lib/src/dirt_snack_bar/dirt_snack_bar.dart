@@ -2,10 +2,10 @@ import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 
 class DirtSnackBar extends SnackBar {
-  DirtSnackBar._(Key? key, String content, Color background, {IconData? icon, SnackBarAction? action})
+  DirtSnackBar._(Key? key, String content, Color background, {IconData? icon, super.action})
       : super(
+          key: key,
           backgroundColor: background,
-          action: action,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               4,
@@ -19,35 +19,35 @@ class DirtSnackBar extends SnackBar {
                   icon,
                   size: 20,
                 ),
-                SizedBox(width: 10)
+                const SizedBox(width: 10)
               ],
               Expanded(
                 child: Text(
                   content,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
               ),
               if (action == null)
-                InkWell(
+                const InkWell(
+                  onTap: asuka.hideCurrentSnackBar,
                   child: Icon(
                     Icons.close,
                     color: Colors.white,
                   ),
-                  onTap: asuka.hideCurrentSnackBar,
                 )
             ],
           ),
         );
 
-  factory DirtSnackBar.warning(String content, {Key? key}) => DirtSnackBar._(key, content, Color(0xffD9822B), icon: Icons.warning);
+  factory DirtSnackBar.warning(String content, {Key? key}) => DirtSnackBar._(key, content, const Color(0xffD9822B), icon: Icons.warning);
 
-  factory DirtSnackBar.error(String content, {Key? key}) => DirtSnackBar._(key, content, Color(0xffD13913), icon: Icons.error);
+  factory DirtSnackBar.error(String content, {Key? key}) => DirtSnackBar._(key, content, const Color(0xffD13913), icon: Icons.error);
 
-  factory DirtSnackBar.message(String content, {Key? key, SnackBarAction? snackBarAction}) => DirtSnackBar._(key, content, Color(0xffFFFFFF), action: snackBarAction);
+  factory DirtSnackBar.message(String content, {Key? key, SnackBarAction? snackBarAction}) => DirtSnackBar._(key, content, const Color(0xffFFFFFF), action: snackBarAction);
 
-  factory DirtSnackBar.done(String content, {Key? key, SnackBarAction? snackBarAction}) => DirtSnackBar._(key, content, Color(0xff0F9960), action: snackBarAction);
+  factory DirtSnackBar.done(String content, {Key? key, SnackBarAction? snackBarAction}) => DirtSnackBar._(key, content, const Color(0xff0F9960), action: snackBarAction);
 
   void call() => show();
 

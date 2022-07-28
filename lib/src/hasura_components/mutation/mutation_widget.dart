@@ -15,7 +15,7 @@ class MutationWidget<T> extends StatefulWidget {
   final HasuraConnect? hasuraConnect;
 
   const MutationWidget({
-    Key? key,
+    super.key,
     required this.mutation,
     required this.variables,
     required this.builder,
@@ -24,7 +24,7 @@ class MutationWidget<T> extends StatefulWidget {
     this.onSuccess,
     this.url,
     this.hasuraConnect,
-  }) : super(key: key);
+  });
 
   @override
   _MutationWidgetState<T> createState() => _MutationWidgetState<T>();
@@ -35,8 +35,8 @@ class _MutationWidgetState<T> extends State<MutationWidget<T>> {
     BotToast.showCustomLoading(toastBuilder: (_) => widget.loader);
 
     try {
-      var dio = widget.hasuraConnect ?? HasuraConnect(widget.url!);
-      var response = await dio.mutation(
+      final hasuraConnect = widget.hasuraConnect ?? HasuraConnect(widget.url!);
+      final response = await hasuraConnect.mutation(
         widget.mutation,
         variables: widget.variables,
       );

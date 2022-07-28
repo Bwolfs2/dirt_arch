@@ -12,7 +12,7 @@ class QueryWidget<T> extends StatefulWidget {
   final void Function(dynamic)? onError;
   final HasuraConnect? hasuraConnect;
   const QueryWidget({
-    Key? key,
+    super.key,
     required this.query,
     required this.builder,
     required this.fromListMap,
@@ -20,8 +20,7 @@ class QueryWidget<T> extends StatefulWidget {
     this.onError,
     this.url,
     this.hasuraConnect,
-  })  : assert(hasuraConnect == null),
-        super(key: key);
+  }) : assert(hasuraConnect == null);
 
   @override
   _QueryWidgetState<T> createState() => _QueryWidgetState<T>();
@@ -30,12 +29,12 @@ class QueryWidget<T> extends StatefulWidget {
 class _QueryWidgetState<T> extends State<QueryWidget<T>> {
   Future<List<T>> getData() async {
     try {
-      var hasuraConnect = widget.hasuraConnect ?? HasuraConnect(widget.url!);
-      var result = await hasuraConnect.query(widget.query);
+      final hasuraConnect = widget.hasuraConnect ?? HasuraConnect(widget.url!);
+      final result = await hasuraConnect.query(widget.query);
       return widget.fromListMap(result['data']);
     } catch (e) {
       widget.onError?.call(e);
-      print(e);
+      debugPrint('$e');
       return [];
     }
   }
@@ -58,7 +57,7 @@ class _QueryWidgetState<T> extends State<QueryWidget<T>> {
           return Container();
         }
         BotToast.closeAllLoading();
-        return widget.builder(snapshot.data as List<T>);
+        return widget.builder(snapshot.data == null ? [] : snapshot.data! as List<T>);
       },
     );
   }

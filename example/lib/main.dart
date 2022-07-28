@@ -1,10 +1,10 @@
-import 'package:dirt_arch/dirt_arch.dart';
-import 'package:example/page_four.dart';
-import 'package:flutter/material.dart';
 import 'package:asuka/asuka.dart' as asuka;
-import 'model/sample_model.dart';
-import 'page_three.dart';
-import 'page_two.dart';
+import 'package:dirt_arch/dirt_arch.dart';
+import 'package:example/model/sample_model.dart';
+import 'package:example/page_four.dart';
+import 'package:example/page_three.dart';
+import 'package:example/page_two.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,17 +20,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       builder: (BuildContext context, Widget child) {
         return asuka.builder(context, BotToastInit()(context, child));
       },
-      navigatorObservers: [BotToastNavigatorObserver()],
+      navigatorObservers: [
+        BotToastNavigatorObserver()
+      ],
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -46,39 +48,46 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: [
           IconButton(
-            icon: Icon(Icons.threesixty),
+            icon: const Icon(Icons.threesixty),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return PageThree();
-              }));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) {
+                    return const PageThree();
+                  },
+                ),
+              );
             },
           )
         ],
       ),
       body: Column(
         children: [
-          RaisedButton(
-              child: Text('Next Page'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => PageFour(),
-                  ),
-                );
-              }),
+          ElevatedButton(
+            child: const Text('Next Page'),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => PageFour(),
+                ),
+              );
+            },
+          ),
           Expanded(
             child: GetWidget<List<SampleModel>>(
               url: 'https://jsonplaceholder.typicode.com/posts',
-              fromMap: (json) =>
-                  (json as List).map((e) => SampleModel.fromMap(e)).toList(),
+              fromMap: (json) => (json as List).map((e) => SampleModel.fromMap(e)).toList(),
               builder: (data) => ListView.builder(
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(data[index].title),
-                    onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) {
-                      return PageTwo(id: data[index].id);
-                    })),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) {
+                          return PageTwo(id: data[index].id);
+                        },
+                      ),
+                    ),
                   );
                 },
               ),
@@ -90,23 +99,26 @@ class _MyHomePageState extends State<MyHomePage> {
         //This
         onTapItems: [
           DirtTabItem(
-              icon: Icons.home,
-              title: 'Home',
-              onTap: (_) {
-                print('Home');
-              }),
+            icon: Icons.home,
+            title: 'Home',
+            onTap: (_) {
+              debugPrint('Home');
+            },
+          ),
           DirtTabItem(
-              icon: Icons.map,
-              title: 'Discovery',
-              onTap: (_) {
-                print('Discovery');
-              }),
+            icon: Icons.map,
+            title: 'Discovery',
+            onTap: (_) {
+              debugPrint('Discovery');
+            },
+          ),
           DirtTabItem(
-              icon: Icons.add,
-              title: 'Add',
-              onTap: (_) {
-                print('Add');
-              }),
+            icon: Icons.add,
+            title: 'Add',
+            onTap: (_) {
+              debugPrint('Add');
+            },
+          ),
         ],
         //Or
         // items: [
@@ -129,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             tooltip: 'Increment',
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           );
         },
       ),

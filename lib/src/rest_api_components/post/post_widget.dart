@@ -14,7 +14,7 @@ class PostWidget<T> extends StatefulWidget {
   final Dio? customDio;
 
   const PostWidget({
-    Key? key,
+    super.key,
     required this.url,
     required this.builder,
     required this.toMap,
@@ -22,7 +22,7 @@ class PostWidget<T> extends StatefulWidget {
     this.onError,
     this.onSuccess,
     this.customDio,
-  }) : super(key: key);
+  });
 
   @override
   _PostWidgetState<T> createState() => _PostWidgetState<T>();
@@ -33,8 +33,8 @@ class _PostWidgetState<T> extends State<PostWidget<T>> {
     BotToast.showCustomLoading(toastBuilder: (_) => widget.loader);
 
     try {
-      var dio = widget.customDio ?? Dio();
-      var response = await dio.post(widget.url, data: widget.toMap(data));
+      final dio = widget.customDio ?? Dio();
+      final response = await dio.post(widget.url, data: widget.toMap(data));
       widget.onSuccess?.call(response);
     } catch (e) {
       widget.onError?.call(e);

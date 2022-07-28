@@ -1,7 +1,6 @@
 import 'package:dirt_arch/dirt_arch.dart';
+import 'package:example/model/sample_model.dart';
 import 'package:flutter/material.dart';
-
-import 'model/sample_model.dart';
 
 class PageFour extends StatefulWidget {
   @override
@@ -13,21 +12,21 @@ class _PageFourState extends State<PageFour> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: const Text("Details"),
       ),
       floatingActionButton: MutationWidget<SampleModel>(
         url: 'https://bwolfdev.herokuapp.com/v1/graphql',
-        variables: {
-          'urlImage':
-              'https://img.freepik.com/fotos-gratis/3d-rendem-de-uma-mesa-de-madeira-com-uma-imagem-defocussed-de-um-barco-em-um-lago_1048-3432.jpg?size=626&ext=jpg'
+        variables: const {
+          'urlImage': 'https://img.freepik.com/fotos-gratis/3d-rendem-de-uma-mesa-de-madeira-com-uma-imagem-defocussed-de-um-barco-em-um-lago_1048-3432.jpg?size=626&ext=jpg'
         },
-        mutation: r'''mutation insertUser($urlImage: String) {
+        mutation: r'''
+mutation insertUser($urlImage: String) {
                       insert_user(objects: {title: "Titulo Legal", urlImage: $urlImage, userId: 1}) {
                         affected_rows
                       }
                     }''',
         onSuccess: (dynamic value) {
-          if (value['insert_user']['affected_rows'] > 0) {
+          if (value['insert_user']['affected_rows'] as int > 0) {
             DirtSnackBar.done('Added Success')();
           } else {
             DirtSnackBar.warning('I guess something is wrong')();
@@ -38,17 +37,18 @@ class _PageFourState extends State<PageFour> {
           return FloatingActionButton(
             onPressed: () => execute(),
             tooltip: 'Increment',
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           );
         },
       ),
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: 150,
             child: SubscriptionWidget<SampleModel>(
               url: "https://bwolfdev.herokuapp.com/v1/graphql",
-              subscription: '''subscription MyQuery {
+              subscription: '''
+subscription MyQuery {
                             user{
                               id,
                               title,
@@ -58,9 +58,11 @@ class _PageFourState extends State<PageFour> {
                             }
                           }''',
               fromListMap: (json) {
-                return json['user'].map<SampleModel>((data) {
-                  return SampleModel.fromMap(data);
-                }).toList();
+                return List.from(
+                  json['user'].map<SampleModel>((data) {
+                    return SampleModel.fromMap(data);
+                  }) as Iterable<SampleModel>,
+                );
               },
               builder: (list) {
                 list.sort((a, b) => a.id.compareTo(b.id));
@@ -78,7 +80,8 @@ class _PageFourState extends State<PageFour> {
           Expanded(
             child: QueryWidget<SampleModel>(
               url: "https://bwolfdev.herokuapp.com/v1/graphql",
-              query: '''query MyQuery {
+              query: '''
+query MyQuery {
                           user{
                             id,
                             title,
@@ -88,9 +91,11 @@ class _PageFourState extends State<PageFour> {
                           }
                         }''',
               fromListMap: (json) {
-                return json['user'].map<SampleModel>((data) {
-                  return SampleModel.fromMap(data);
-                }).toList();
+                return List.from(
+                  json['user'].map<SampleModel>((data) {
+                    return SampleModel.fromMap(data);
+                  }) as Iterable<SampleModel>,
+                );
               },
               builder: (list) => ListView.builder(
                 itemCount: list.length,

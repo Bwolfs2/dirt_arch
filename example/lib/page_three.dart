@@ -16,11 +16,12 @@ class _PageTwoState extends State<PageThree> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Details"),
-        ),
-        body: Column(children: [
-          SizedBox(
+      appBar: AppBar(
+        title: const Text("Details"),
+      ),
+      body: Column(
+        children: [
+          const SizedBox(
             height: 100,
           ),
           ChipMenuList<String>(
@@ -37,7 +38,7 @@ class _PageTwoState extends State<PageThree> {
             ],
             elevation: 5,
             onTap: (index) {
-              print(index);
+              debugPrint(index);
               setState(() {});
             },
             useTips: true,
@@ -46,32 +47,32 @@ class _PageTwoState extends State<PageThree> {
             key: UniqueKey(),
             child: AnimatedCard(
               curve: Curves.bounceInOut,
-              direction:
-                  AnimatedCardDirection.bottom, //Initial animation direction
-              initDelay: Duration(milliseconds: 0), //Delay to initial animation
-              duration:
-                  Duration(milliseconds: 600), //Initial animation duration
+              direction: AnimatedCardDirection.bottom, //Initial animation direction
+              initDelay: Duration.zero, //Delay to initial animation
               child: ListView.builder(
-                  padding: EdgeInsets.all(10),
-                  itemCount: 10,
-                  itemBuilder: (_, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
+                padding: const EdgeInsets.all(10),
+                itemCount: 10,
+                itemBuilder: (_, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
+                        color: index.isOdd ? Colors.red : Colors.green,
                       ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: index % 2 == 0 ? Colors.red : Colors.green,
-                        ),
-                        height: 150,
-                        child: Center(child: Text("Card $index")),
-                      ),
-                    );
-                  }),
+                      height: 150,
+                      child: Center(child: Text("Card $index")),
+                    ),
+                  );
+                },
+              ),
               //Implement this action to active dismiss
             ),
           )
-        ]));
+        ],
+      ),
+    );
   }
 }

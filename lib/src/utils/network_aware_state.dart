@@ -29,7 +29,7 @@ mixin NetworkAwareState<T extends StatefulWidget> on State<T> {
       // message was in flight, we want to discard the reply rather than calling
       // setState to update our non-existent appearance.
       if (!mounted) {
-        return Future.value(null);
+        return Future.value();
       }
 
       return _updateConnectionStatus(result);
@@ -48,7 +48,7 @@ mixin NetworkAwareState<T extends StatefulWidget> on State<T> {
     });
   }
 
-  _updateConnectionStatus(ConnectivityResult result) {
+  void _updateConnectionStatus(ConnectivityResult result) {
     if (result != ConnectivityResult.none) {
       if (_isDisconnected) {
         onReconnected();

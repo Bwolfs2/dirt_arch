@@ -1,8 +1,9 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
+import 'package:dirt_arch/src/flutter_components/chip_menu_list/chip_menu_item.dart';
+import 'package:dirt_arch/src/flutter_components/chip_menu_list/measure_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'chip_menu_item.dart';
-import 'measure_size.dart';
 
 class ChipMenuList<T> extends StatefulWidget {
   final List<ChipMenuItem<T>> items;
@@ -13,21 +14,21 @@ class ChipMenuList<T> extends StatefulWidget {
   final bool useTips;
 
   const ChipMenuList({
-    Key? key,
+    super.key,
     required this.items,
     this.onTap,
     this.backgroundColor,
     this.elevation,
     this.activeColor,
     this.useTips = false,
-  }) : super(key: key);
+  });
 
   @override
   _ChipMenuListState<T> createState() => _ChipMenuListState<T>();
 }
 
 class _ChipMenuListState<T> extends State<ChipMenuList<T>> {
-  var selectedIndex = 0;
+  int selectedIndex = 0;
   late Size size;
   late Size totalSize;
 
@@ -45,80 +46,81 @@ class _ChipMenuListState<T> extends State<ChipMenuList<T>> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: widget.backgroundColor ?? Colors.transparent,
-        height: 50,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          scrollDirection: Axis.horizontal,
-          child: Stack(
-            children: [
-              if (childSizes.length > 0)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: padding),
-                  child: AnimatedContainer(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.red,
-                    ),
-                    transform: Matrix4.identity()..translate(sizeUntilIndex(selectedIndex)),
-                    width: childSizes[selectedIndex].width,
-                    height: childSizes[selectedIndex].height,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOutBack,
-                    alignment: Alignment.center,
+      color: widget.backgroundColor ?? Colors.transparent,
+      height: 50,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        scrollDirection: Axis.horizontal,
+        child: Stack(
+          children: [
+            if (childSizes.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: padding),
+                child: AnimatedContainer(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.red,
                   ),
+                  transform: Matrix4.identity()..translate(sizeUntilIndex(selectedIndex)),
+                  width: childSizes[selectedIndex].width,
+                  height: childSizes[selectedIndex].height,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOutBack,
+                  alignment: Alignment.center,
                 ),
-              MeasureSize(
-                onChange: (size) {
-                  setState(() {
-                    this.totalSize = size;
-                  });
-                },
-                child: SizedBox(
-                  height: 30,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.items.map((e) {
-                      Size localSize;
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: padding),
-                        child: MeasureSize(
-                          onChange: (size) {
-                            localSize = size;
-                            var id = widget.items.indexOf(e);
-                            if (childSizes.length < id) {
-                              childSizes[id] = localSize;
-                            } else {
-                              childSizes.add(localSize);
-                            }
+              ),
+            MeasureSize(
+              onChange: (size) {
+                setState(() {
+                  totalSize = size;
+                });
+              },
+              child: SizedBox(
+                height: 30,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: widget.items.map((e) {
+                    Size localSize;
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: padding),
+                      child: MeasureSize(
+                        onChange: (size) {
+                          localSize = size;
+                          final id = widget.items.indexOf(e);
+                          if (childSizes.length < id) {
+                            childSizes[id] = localSize;
+                          } else {
+                            childSizes.add(localSize);
+                          }
+                        },
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = widget.items.indexOf(e);
+                              widget.onTap?.call(e.item);
+                            });
                           },
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIndex = widget.items.indexOf(e);
-                                widget.onTap?.call(e.item);
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: AnimatedText(
-                                text: e.item.toString(),
-                                color: widget.items.indexOf(e) == selectedIndex ? Colors.white : Colors.grey[800]!,
-                                curve: Curves.easeIn,
-                                duration: Duration(milliseconds: 300),
-                              ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: AnimatedText(
+                              text: e.item.toString(),
+                              color: widget.items.indexOf(e) == selectedIndex ? Colors.white : Colors.grey[800]!,
+                              curve: Curves.easeIn,
+                              duration: const Duration(milliseconds: 300),
                             ),
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -126,12 +128,12 @@ class AnimatedText extends ImplicitlyAnimatedWidget {
   final Color? color;
   final String? text;
 
-  AnimatedText({
+  const AnimatedText({
     this.color,
     this.text,
-    Duration duration = Duration.zero,
-    Curve curve = Curves.linear,
-  }) : super(duration: duration, curve: curve);
+    super.duration = Duration.zero,
+    super.curve,
+  });
 
   @override
   _AnimatedTextState createState() => _AnimatedTextState();
@@ -153,7 +155,7 @@ class _AnimatedTextState extends AnimatedWidgetBaseState<AnimatedText> {
   }
 
   @override
-  void forEachTween(visitor) {
-    _color = visitor(_color, widget.color, (dynamic value) => ColorTween(begin: value)) as ColorTween;
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _color = visitor(_color, widget.color, (dynamic value) => ColorTween(begin: value as Color)) as ColorTween;
   }
 }
